@@ -21,7 +21,7 @@ public interface ConversationRepository {
 
     int deleteByPublicId(UserPublicId userPublicId, ConversationPublicId conversationPublicId);
 
-    Optional<Conversation> getConversationByUsersPublicIdAndPubicId(UserPublicId userPublicId, ConversationPublicId conversationPublicId);
+    Optional<Conversation> getConversationByUsersPublicIdAndPublicId(UserPublicId userPublicId, ConversationPublicId conversationPublicId);
 
     Optional<Conversation> getConversationByUsersPublicIds(List<UserPublicId> publicIds);
 

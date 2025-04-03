@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserRepository {
 
@@ -19,7 +20,7 @@ public interface UserRepository {
 
     Optional<User> getOneByEmail(UserEmail email);
 
-    List<User> getByPublicIds(List<UserPublicId> publicIds);
+    List<User> getByPublicIds(Set<UserPublicId> publicIds);
 
     Page<User> search(Pageable pageable, String query);
 

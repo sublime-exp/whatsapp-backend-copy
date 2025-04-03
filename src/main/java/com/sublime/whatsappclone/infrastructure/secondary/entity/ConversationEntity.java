@@ -6,10 +6,7 @@ import com.sublime.whatsappclone.messaging.domain.message.vo.ConversationName;
 import com.sublime.whatsappclone.messaging.domain.message.vo.ConversationPublicId;
 import com.sublime.whatsappclone.shared.jpa.AbstractAuditingEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
@@ -22,6 +19,7 @@ import java.util.stream.Collectors;
 @Table(name = "conversation")
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConversationEntity extends AbstractAuditingEntity<Long> {
