@@ -6,6 +6,7 @@ import com.sublime.whatsappclone.messaging.domain.message.repository.Conversatio
 import com.sublime.whatsappclone.messaging.domain.message.vo.ConversationPublicId;
 import com.sublime.whatsappclone.messaging.domain.user.aggregate.User;
 import com.sublime.whatsappclone.messaging.domain.user.vo.UserPublicId;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;

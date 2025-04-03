@@ -22,12 +22,14 @@ in client scopes:
   name: imageUrl
   description: Image User
 
-then click configure new mapper choose user attribute
-name: imageUrl
-select user attribute: imageUrl
-token claim name: image_url
-
-go to client -> client scopes -> add scope -> choose imageUrl scope
+go to client
+-> select whatsapp_clone
+-> client scopes
+-> whatsapp-clone-dedicated
+-> click configure new mapper choose user attribute
+    name: imageUrl
+    select user attribute: imageUrl
+    token claim name: image_url
 
 in settings-> login -> enable user registration and remember me
 
