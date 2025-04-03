@@ -1,9 +1,25 @@
+version: '3.8'
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres:latest
+    volumes:
+      - ~/volumes/sublime/postgresql/:/var/lib/postgresql/data
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      POSTGRES_USER: sublime
+      POSTGRES_PASSWORD: sublime
+      POSTGRES_DB: sublime_db
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=password"
+      SCHEMA_NAME: whatsappclone
     ports:
-      - '5432'
+      - "15432:5432"
+    command:
+      - bash
+      - -c
+      - |
+        mkdir -p /docker-entrypoint-initdb.d
+        cat > /docker-entrypoint-initdb.d/init.sql <<EOF
+        CREATE SCHEMA IF NOT EXISTS $${SCHEMA_NAME};
+        GRANT ALL ON SCHEMA $${SCHEMA_NAME} TO $${POSTGRES_USER};
+        ALTER ROLE $${POSTGRES_USER} SET search_path TO $${SCHEMA_NAME}, public;
+        EOF
+        exec docker-entrypoint.sh postgres

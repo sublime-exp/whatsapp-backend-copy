@@ -3,20 +3,21 @@ package com.sublime.whatsappclone.wire.security.infrastructure.primary;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-public class CorsConfiguration {
+public class CorsFilterConfiguration {
 
     @Bean
     @ConfigurationProperties(prefix = "application.cors", ignoreUnknownFields = false)
-    public org.springframework.web.cors.CorsConfiguration corsConfiguration() {
-        return new org.springframework.web.cors.CorsConfiguration();
+    public CorsConfiguration corsConfiguration() {
+        return new CorsConfiguration();
     }
 
     @Bean
-    public CorsFilter corsFilter(org.springframework.web.cors.CorsConfiguration corsConfiguration) {
+    public CorsFilter corsFilter(CorsConfiguration corsConfiguration) {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/**", corsConfiguration);
         source.registerCorsConfiguration("/**", corsConfiguration);

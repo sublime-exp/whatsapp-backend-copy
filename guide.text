@@ -1,0 +1,33 @@
+start the keyckoal.yml
+log in admin admin
+create realm whatsapp-clone
+create client  whatsapp-clone everything default then
+root url: http://localhost:4200
+home url: http://localhost:4200
+redirect url: http://localhost:4200/
+valid post logout: http://localhost:4200
+web origin: http://localhost:4200
+create realm roles:
+ ROLE_USER
+ ROLE_ADMIN
+in realm settings:
+   user registration -> assign role ROLE_USER
+   user profile:
+    create attribute:
+             name:  imageUrl
+             displayName: ${imageUrl}
+             tic every role in permissions there
+in client scopes:
+  create new client scope
+  name: imageUrl
+  description: Image User
+
+then click configure new mapper choose user attribute
+name: imageUrl
+select user attribute: imageUrl
+token claim name: image_url
+
+go to client -> client scopes -> add scope -> choose imageUrl scope
+
+in settings-> login -> enable user registration and remember me
+
