@@ -21,7 +21,8 @@ public interface JpaConversationRepository extends JpaRepository<ConversationEnt
     @Query("SELECT conversation FROM ConversationEntity conversation " +
             "JOIN conversation.users users " +
             "WHERE users.publicId IN :userPublicIds " +
-            "HAVING COUNT(users.id) =: userCount")
+            "GROUP BY conversation.id " +
+            "HAVING COUNT(users.id) = :userCount")
     Optional<ConversationEntity> findOneByUsersPublicIdIn(List<UUID> userPublicIds, int userCount);
 
     Optional<ConversationEntity> findOneByPublicId(UUID publicId);

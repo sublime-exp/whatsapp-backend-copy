@@ -4,6 +4,8 @@ import com.sublime.whatsappclone.messaging.domain.user.aggregate.User;
 import com.sublime.whatsappclone.messaging.domain.user.repository.UserRepository;
 import com.sublime.whatsappclone.messaging.domain.user.vo.UserEmail;
 import com.sublime.whatsappclone.messaging.domain.user.vo.UserPublicId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,5 +25,9 @@ public class UserReader {
 
     public List<User> getUsersByPublicId(Set<UserPublicId> publicIds) {
         return userRepository.getByPublicIds(publicIds);
+    }
+
+    public Page<User> search(Pageable pageable, String query) {
+        return userRepository.search(pageable, query);
     }
 }

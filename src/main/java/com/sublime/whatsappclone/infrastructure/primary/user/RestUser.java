@@ -1,4 +1,4 @@
-package com.sublime.whatsappclone.infrastructure.primary;
+package com.sublime.whatsappclone.infrastructure.primary.user;
 
 import com.sublime.whatsappclone.messaging.domain.user.aggregate.User;
 import lombok.Builder;

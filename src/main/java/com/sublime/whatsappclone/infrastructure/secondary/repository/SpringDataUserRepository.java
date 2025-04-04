@@ -49,16 +49,6 @@ public class SpringDataUserRepository implements UserRepository {
     }
 
     @Override
-    public List<User> getByPublicIds(List<UserPublicId> publicIds) {
-        return List.of();
-    }
-
-    @Override
-    public Page<User> search(Pageable pageable, String query) {
-        return null;
-    }
-
-    @Override
     public int updateLastSeenByPublicId(UserPublicId publicId, Instant lastSeen) {
         return 0;
     }
@@ -68,19 +58,19 @@ public class SpringDataUserRepository implements UserRepository {
         return List.of();
     }
 
-//    @Override
-//    public List<User> getByPublicIds(Set<UserPublicId> userPublicIds) {
-//        List<UUID> rawPublicIds = userPublicIds.stream().map(UserPublicId::value).toList();
-//        return jpaUserRepository.findByPublicIdIn(rawPublicIds)
-//                .stream()
-//                .map(UserEntity::toDomain)
-//                .toList();
-//    }
+    @Override
+    public List<User> getByPublicIds(Set<UserPublicId> userPublicIds) {
+        List<UUID> rawPublicIds = userPublicIds.stream().map(UserPublicId::value).toList();
+        return jpaUserRepository.findByPublicIdIn(rawPublicIds)
+                .stream()
+                .map(UserEntity::toDomain)
+                .toList();
+    }
 
-//    @Override
-//    public Page<User> search(Pageable pageable, String query) {
-//        return jpaUserRepository.search(pageable, query).map(UserEntity::toDomain);
-//    }
+    @Override
+    public Page<User> search(Pageable pageable, String query) {
+        return jpaUserRepository.search(pageable, query).map(UserEntity::toDomain);
+    }
 
 //    @Override
 //    public int updateLastSeenByPublicId(UserPublicId userPublicId, Instant lastSeen) {
