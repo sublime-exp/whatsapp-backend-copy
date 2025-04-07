@@ -27,7 +27,7 @@ public class SpringDataConversationRepository implements ConversationRepository 
     public Conversation save(ConversationToCreate conversation, List<User> members) {
         ConversationEntity newConversationEntity = ConversationEntity.from(conversation);
         newConversationEntity.setUsers(UserEntity.from(members));
-        ConversationEntity newConversationSaved = conversationRepository.save(newConversationEntity);
+        ConversationEntity newConversationSaved = conversationRepository.saveAndFlush(newConversationEntity);
         return ConversationEntity.toDomain(newConversationSaved);
     }
 
