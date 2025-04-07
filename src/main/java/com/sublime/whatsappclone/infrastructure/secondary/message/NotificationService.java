@@ -31,7 +31,8 @@ public class NotificationService {
                                 .name("heartbeat")
                                 .id(ssEmitter.getKey())
                                 .data("Check heartbeat..."));
-
+                this.userApplicationService.updatePresence(
+                        new UserPublicId(UUID.fromString(ssEmitter.getKey())));
             } catch (IllegalStateException e) {
                 log.info("remove this one from the map {}", ssEmitter.getKey());
                 emitters.remove(ssEmitter.getKey());

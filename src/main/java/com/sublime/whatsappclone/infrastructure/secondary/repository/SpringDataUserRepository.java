@@ -49,13 +49,14 @@ public class SpringDataUserRepository implements UserRepository {
     }
 
     @Override
-    public int updateLastSeenByPublicId(UserPublicId publicId, Instant lastSeen) {
-        return 0;
+    public List<User> getRecipientsByConversationIdExcludingReader(ConversationPublicId conversationId, UserPublicId readerPublicId) {
+        return List.of();
     }
 
     @Override
-    public List<User> getRecipientsByConversationIdExcludingReader(ConversationPublicId conversationId, UserPublicId readerPublicId) {
-        return List.of();
+    public Optional<User> getByPublicId(UserPublicId userPublicId) {
+        return jpaUserRepository.findOneByPublicId(userPublicId.value())
+                .map(UserEntity::toDomain);
     }
 
     @Override
@@ -72,10 +73,10 @@ public class SpringDataUserRepository implements UserRepository {
         return jpaUserRepository.search(pageable, query).map(UserEntity::toDomain);
     }
 
-//    @Override
-//    public int updateLastSeenByPublicId(UserPublicId userPublicId, Instant lastSeen) {
-//        return jpaUserRepository.updateLastSeen(userPublicId.value(), lastSeen);
-//    }
+    @Override
+    public int updateLastSeenByPublicId(UserPublicId userPublicId, Instant lastSeen) {
+        return jpaUserRepository.updateLastSeen(userPublicId.value(), lastSeen);
+    }
 
 //    @Override
 //    public List<User> getRecipientByConversationIdExcludingReader(ConversationPublicId conversationPublicId, UserPublicId readerPublicId) {

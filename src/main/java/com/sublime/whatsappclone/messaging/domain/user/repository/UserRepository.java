@@ -28,4 +28,6 @@ public interface UserRepository {
 
     List<User> getRecipientsByConversationIdExcludingReader(ConversationPublicId conversationId,
                                                             UserPublicId readerPublicId);
+
+    Optional<User> getByPublicId(UserPublicId userPublicId);
 }
