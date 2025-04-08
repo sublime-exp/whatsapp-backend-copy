@@ -26,7 +26,7 @@ public interface UserRepository {
 
     int updateLastSeenByPublicId(UserPublicId publicId, Instant lastSeen);
 
-    List<User> getRecipientsByConversationIdExcludingReader(ConversationPublicId conversationId,
+    List<User> getRecipientByConversationIdExcludingReader(ConversationPublicId conversationId,
                                                             UserPublicId readerPublicId);
 
     Optional<User> getByPublicId(UserPublicId userPublicId);

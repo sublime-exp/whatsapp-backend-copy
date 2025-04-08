@@ -1,11 +1,9 @@
 package com.sublime.whatsappclone.infrastructure.primary.message;
 
 import com.sublime.whatsappclone.messaging.domain.message.aggregate.Message;
-import com.sublime.whatsappclone.messaging.domain.message.vo.MessageSendState;
-import com.sublime.whatsappclone.messaging.domain.message.vo.MessageType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import com.sublime.whatsappclone.messaging.domain.message.aggregate.MessageSendNew;
+import com.sublime.whatsappclone.messaging.domain.message.vo.*;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -14,26 +12,44 @@ import java.util.UUID;
 
 @Builder
 @NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
 public class RestMessage {
 
     private String textContent;
-
     private Instant sendDate;
-
     private MessageSendState state;
-
     private UUID publicId;
-
     private UUID conversationId;
-
     private MessageType type;
-
     private byte[] mediaContent;
-
     private String mimeType;
-
     private UUID senderId;
+
+    public void setMediaAttachment(byte[] file, String contentType) {
+        this.mediaContent = file;
+        this.mimeType = contentType;
+    }
+
+    public boolean hasMedia() {
+        return !type.equals(MessageType.TEXT);
+    }
+
+    public static MessageSendNew toDomain(RestMessage restMessage) {
+        MessageContent.MessageContentBuilder messageContent = MessageContent.builder()
+                .type(restMessage.type)
+                .text(restMessage.textContent);
+
+        if (!restMessage.type.equals(MessageType.TEXT)) {
+            messageContent.media(new MessageMediaContent(restMessage.mediaContent,
+                    restMessage.mimeType));
+        }
+        return MessageSendNew.builder()
+                .messageContent(messageContent.build())
+                .conversationPublicId(new ConversationPublicId(restMessage.conversationId))
+                .build();
+    }
 
     public static RestMessage from(Message message) {
         RestMessageBuilder builder = RestMessage.builder()

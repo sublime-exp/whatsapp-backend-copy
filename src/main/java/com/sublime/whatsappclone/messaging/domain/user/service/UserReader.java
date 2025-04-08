@@ -1,5 +1,6 @@
 package com.sublime.whatsappclone.messaging.domain.user.service;
 
+import com.sublime.whatsappclone.messaging.domain.message.vo.ConversationPublicId;
 import com.sublime.whatsappclone.messaging.domain.user.aggregate.User;
 import com.sublime.whatsappclone.messaging.domain.user.repository.UserRepository;
 import com.sublime.whatsappclone.messaging.domain.user.vo.UserEmail;
@@ -33,5 +34,9 @@ public class UserReader {
 
     public Optional<User> getByPublicId(UserPublicId userPublicId) {
         return userRepository.getByPublicId(userPublicId);
+    }
+
+    public List<User> findUsersToNotify(ConversationPublicId conversationPublicId, UserPublicId readerPublicId) {
+        return userRepository.getRecipientByConversationIdExcludingReader(conversationPublicId, readerPublicId);
     }
 }

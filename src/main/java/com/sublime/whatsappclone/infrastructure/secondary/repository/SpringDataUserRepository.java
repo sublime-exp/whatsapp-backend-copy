@@ -49,13 +49,9 @@ public class SpringDataUserRepository implements UserRepository {
     }
 
     @Override
-    public List<User> getRecipientsByConversationIdExcludingReader(ConversationPublicId conversationId, UserPublicId readerPublicId) {
-        return List.of();
-    }
-
-    @Override
     public Optional<User> getByPublicId(UserPublicId userPublicId) {
-        return jpaUserRepository.findOneByPublicId(userPublicId.value())
+        return jpaUserRepository
+                .findOneByPublicId(userPublicId.value())
                 .map(UserEntity::toDomain);
     }
 
@@ -78,18 +74,13 @@ public class SpringDataUserRepository implements UserRepository {
         return jpaUserRepository.updateLastSeen(userPublicId.value(), lastSeen);
     }
 
-//    @Override
-//    public List<User> getRecipientByConversationIdExcludingReader(ConversationPublicId conversationPublicId, UserPublicId readerPublicId) {
-//        return jpaUserRepository.findByConversationsPublicIdAndPublicIdIsNot(conversationPublicId.value(), readerPublicId.value())
-//                .stream()
-//                .map(UserEntity::toDomain)
-//                .toList();
-//    }
+    @Override
+    public List<User> getRecipientByConversationIdExcludingReader(ConversationPublicId conversationPublicId,
+                                                                  UserPublicId readerPublicId) {
+        return jpaUserRepository.findByConversationsPublicIdAndPublicIdIsNot(conversationPublicId.value(), readerPublicId.value())
+                .stream()
+                .map(UserEntity::toDomain)
+                .toList();
+    }
 
-//    @Override
-//    public Optional<User> getOneByPublicId(UserPublicId userPublicId) {
-//        return jpaUserRepository
-//                .findOneByPublicId(userPublicId.value())
-//                .map(UserEntity::toDomain);
-//    }
 }

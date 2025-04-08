@@ -24,7 +24,6 @@ public class ConversationsResource {
 
     private final ConversationApplicationService service;
 
-
     @GetMapping
     ResponseEntity<List<RestConversation>> getAll(Pageable pageable) {
         List<RestConversation> restConversations = service.getAllByConnectedUser(pageable)
@@ -76,5 +75,11 @@ public class ConversationsResource {
                             "Not able to find this conversation");
             return ResponseEntity.of(problemDetail).build();
         }
+    }
+
+    @PostMapping("/mark-as-read")
+    ResponseEntity<Integer> markConversationAsRead(@RequestParam UUID conversationId) {
+        State<Integer, String> readUpdateState = service.markConversationAsRead(new ConversationPublicId(conversationId));
+        return ResponseEntity.ok(readUpdateState.getValue());
     }
 }

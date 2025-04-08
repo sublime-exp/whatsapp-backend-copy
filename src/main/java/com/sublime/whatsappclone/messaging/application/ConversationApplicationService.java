@@ -4,10 +4,7 @@ import com.sublime.whatsappclone.messaging.domain.message.aggregate.Conversation
 import com.sublime.whatsappclone.messaging.domain.message.aggregate.ConversationToCreate;
 import com.sublime.whatsappclone.messaging.domain.message.repository.ConversationRepository;
 import com.sublime.whatsappclone.messaging.domain.message.repository.MessageRepository;
-import com.sublime.whatsappclone.messaging.domain.message.service.ConversationCreator;
-import com.sublime.whatsappclone.messaging.domain.message.service.ConversationDeleter;
-import com.sublime.whatsappclone.messaging.domain.message.service.ConversationReader;
-import com.sublime.whatsappclone.messaging.domain.message.service.MessageChangeNotifier;
+import com.sublime.whatsappclone.messaging.domain.message.service.*;
 import com.sublime.whatsappclone.messaging.domain.message.vo.ConversationPublicId;
 import com.sublime.whatsappclone.messaging.domain.user.aggregate.User;
 import com.sublime.whatsappclone.messaging.domain.user.repository.UserRepository;
@@ -27,6 +24,7 @@ public class ConversationApplicationService {
     private final ConversationReader conversationReader;
     private final ConversationDeleter conversationDeleter;
     private final UserApplicationService userApplicationService;
+    private final ConversationViewed conversationViewed;
 
 
     public ConversationApplicationService(
@@ -41,6 +39,7 @@ public class ConversationApplicationService {
         this.conversationReader = new ConversationReader(conversationRepository);
         this.conversationDeleter = new ConversationDeleter(conversationRepository, messageChangeNotifier);
         this.userApplicationService = userApplicationService;
+        this.conversationViewed = new ConversationViewed(messageRepository, messageChangeNotifier, userReader);
     }
 
     @Transactional
@@ -68,5 +67,11 @@ public class ConversationApplicationService {
     public Optional<Conversation> getOneByConversationId(ConversationPublicId conversationPublicId) {
         User authenticatedUser = userApplicationService.getAuthenticatedUser();
         return this.conversationReader.getOneByPublicIdAndUserId(conversationPublicId, authenticatedUser.getUserPublicId());
+    }
+
+    @Transactional
+    public State<Integer, String> markConversationAsRead(ConversationPublicId conversationPublicId) {
+        User authenticatedUser = userApplicationService.getAuthenticatedUser();
+        return conversationViewed.markAsRead(conversationPublicId, authenticatedUser.getUserPublicId());
     }
 }

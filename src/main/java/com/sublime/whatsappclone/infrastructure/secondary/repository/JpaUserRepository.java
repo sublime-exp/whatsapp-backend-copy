@@ -30,4 +30,7 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
     int updateLastSeen(UUID userPublicId, Instant lastSeen);
 
     Optional<UserEntity> findOneByPublicId(UUID userPublicId);
+
+    List<UserEntity> findByConversationsPublicIdAndPublicIdIsNot(UUID conversationsPublicId, UUID publicIdToExclude);
+
 }
